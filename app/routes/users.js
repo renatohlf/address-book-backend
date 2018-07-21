@@ -7,7 +7,7 @@ module.exports = app => {
     const secretKey = app.config.config.secretKey;
 
     // Register user endpoint
-    app.post('/api/users', verifyToken, function (req, res) { 
+    app.post('/api/users', verifyToken, function (req, res) {
         // Use jwt to verify if token is valid
         jwt.verify(req.token, secretKey, (err, authData) => {
             if (err) {
@@ -24,21 +24,22 @@ module.exports = app => {
                         // Use bcrypt to encript password to ensure security
                         var hashedPassword = bcrypt.hashSync(password, 8);
                         // Database connection
-                        var connection = infra.dbConnection();
-                        var userDAO = new infra.UsersDAO(connection);
+                        infra.dbConnection().getConnection(function (err, connection) {
+                            var userDAO = new infra.UsersDAO(connection);
 
-                        // If fields are valid, save user in database
-                        userDAO.save(username, hashedPassword, function (err, result) {
-                            if (err) {
-                                res.status(500).send(err.sqlMessage);
-                            } else {
-                                res.json({
-                                    message: "Registration Successful"
-                                });
-                            }
+                            // If fields are valid, save user in database
+                            userDAO.save(username, hashedPassword, function (err, result) {
+                                connection.release();
+                                if (err) {
+                                    res.status(500).send(err.sqlMessage);
+                                } else {
+                                    res.json({
+                                        message: "Registration Successful"
+                                    });
+                                }
+                            });
+
                         });
-
-                        connection.release();
                     }
                 });
 
@@ -89,52 +90,55 @@ module.exports = app => {
     });
 
     app.get('/api/users', function (req, res) {
-        var connection = infra.dbConnection();
-        var usersDAO = new infra.UsersDAO(connection);
+        infra.dbConnection().getConnection(function (err, connection) {
+            var usersDAO = new infra.UsersDAO(connection);
 
-        usersDAO.list(function (err, result) {
-            if (err) {
-                res.status(500).send("There was a problem listing users.");
-            } else {
-                res.json({
-                    result: result
-                });
-            }
+            usersDAO.list(function (err, result) {
+                connection.release();
+                if (err) {
+                    res.status(500).send("There was a problem listing users.");
+                } else {
+                    res.json({
+                        result: result
+                    });
+                }
+            });
         });
-
-        connection.release();
 
     });
 
 
     // Function to validate if user exists in database 
     function validateUser(username, password, callback) {
-        var connection = infra.dbConnection();
-        var usersDAO = new infra.UsersDAO(connection);
+        infra.dbConnection().getConnection(function (err, connection) {
+            var usersDAO = new infra.UsersDAO(connection);
 
-        // Execute query using username to verify if user exists.
-        usersDAO.getUser(username, function (err, result) {
-            if (err) {
-                callback(err, null);
-            } else {
-                let dbUser;
-                for (let i = 0; i < result.length; i++) {
-                    dbUser = result[i];
-                }
-                if (dbUser != undefined) {
-                    // Use bcrypt function to compare if password typed in login is equals to the hashed password stored in database
-                    if (bcrypt.compareSync(password, dbUser.password)) {
-                        callback(null, dbUser);
-                    } else {
-                        callback({ message: "Invalid user", status: 404 })
-                    }
+            // Execute query using username to verify if user exists.
+            usersDAO.getUser(username, function (err, result) {
+                connection.release();
+                if (err) {
+                    callback(err, null);
                 } else {
-                    callback({ message: "Invalid user", status: 404 }, null)
-                }
+                    let dbUser;
+                    for (let i = 0; i < result.length; i++) {
+                        dbUser = result[i];
+                    }
+                    if (dbUser != undefined) {
+                        // Use bcrypt function to compare if password typed in login is equals to the hashed password stored in database
+                        if (bcrypt.compareSync(password, dbUser.password)) {
+                            callback(null, dbUser);
+                        } else {
+                            callback({ message: "Invalid user", status: 404 })
+                        }
+                    } else {
+                        callback({ message: "Invalid user", status: 404 }, null)
+                    }
 
-            }
-        })
-        connection.release();
+                }
+            })
+
+        });
+
 
     }
 

@@ -52,30 +52,31 @@ module.exports = app => {
 
     //Function to get existing user in database.
     function getUser(username, callback) {
-        var connection = infra.dbConnection();
-        var userDAO = new infra.UsersDAO(connection);
+        infra.dbConnection().getConnection(function (err, connection) {
+            var userDAO = new infra.UsersDAO(connection);
 
-        // Execute query using username to verify if user exists.
-        userDAO.getUser(username, function (error, result) {
-            if (error) {
-                callback(error, null);
-            } else {
-                let dbUser;
-                for (let i = 0; i < result.length; i++) {
-                    dbUser = result[i];
-                }
-
-                if (dbUser != undefined) {
-                    // Return user if exists
-                    callback(null, dbUser);
-
+            // Execute query using username to verify if user exists.
+            userDAO.getUser(username, function (error, result) {
+                connection.release();
+                if (error) {
+                    callback(error, null);
                 } else {
-                    // Return error if user doesn't exists
-                    callback('User not found.', null);
+                    let dbUser;
+                    for (let i = 0; i < result.length; i++) {
+                        dbUser = result[i];
+                    }
+
+                    if (dbUser != undefined) {
+                        // Return user if exists
+                        callback(null, dbUser);
+
+                    } else {
+                        // Return error if user doesn't exists
+                        callback('User not found.', null);
+                    }
                 }
-            }
+            });
         });
-        connection.release();
     }
 
     // Function to validate if fields are empty, return error if assert true
