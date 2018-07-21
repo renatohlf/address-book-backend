@@ -1,4 +1,4 @@
-var request = require('supertest')('http://localhost:3000');
+var request = require('supertest')('https://floating-citadel-16549.herokuapp.com');
 var jwt = require('jsonwebtoken');
 require('dotenv').config({ path: './../.env' });
 var config = require('./../app/config/config');

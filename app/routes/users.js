@@ -6,7 +6,7 @@ module.exports = app => {
     const bcrypt = app.services.bcrypt;
     const secretKey = app.config.config.secretKey;
 
-
+    console.log(infra);
     // Register user endpoint
     app.post('/api/users', verifyToken, function (req, res) { 
         // Use jwt to verify if token is valid
