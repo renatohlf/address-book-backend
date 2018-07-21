@@ -1,8 +1,14 @@
 var request = require('supertest')('http://localhost:3000');
-var token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImVtYWlsIjoicmVuYXRvaGxmQGdtYWlsLmNvbSIsInBhc3N3b3JkIjoiJDJhJDA4JDRpTURFVEVzTEZCNXB4RmFyc0RmM090d0c1MkRSMllodlNEN0ZJN2JDRzNOWFdIcFNIM3FpIn0sImlhdCI6MTUzMjEwMTA4MywiZXhwIjoxNTMyMTA0NjgzfQ.DpgdKYB5q5dhAPEHWOyXJmvXcSeafBvULetn7oX8-SU';
-describe('#UserController', function () {
+var jwt = require('jsonwebtoken');
+require('dotenv').config({ path: './../.env' });
+var config = require('./../app/config/config');
+var secretKey = config.secretKey;
+var token = '';
 
+describe('#UserController', function () {
     beforeEach(function (done) {
+        var user = { username: "55h5j@teste.com", password: "1" };
+        token = jwt.sign({ user }, { expires: '1h' } ,secretKey);
         done();
     });
 
@@ -19,8 +25,8 @@ describe('#UserController', function () {
     it('#Login with valid fields', function (done) {
         request.post('/api/login')
             .set('Content-Type', 'application/json')
-            .set('username', 'renatohlf@gmail.com')
-            .set('password', 'hckrlynx')
+            .set('username', '55h5j@teste.com')
+            .set('password', '1')
             .expect('Content-Type', /json/)
             .expect(200, done);
     });
@@ -37,6 +43,7 @@ describe('#UserController', function () {
 
 
     /****               USER                   ****/
+
     it('#Register user with valid fields', function (done) {
         request.post('/api/users')
             .set('Authorization', 'Bearer ' + token)
@@ -53,7 +60,7 @@ describe('#UserController', function () {
             .expect(400, done);
     });
 
-    it('#Register user duplicated', function (done) {
+    it('#Register duplicate user', function (done) {
         request.post('/api/users')
             .set('Authorization', 'Bearer ' + token)
             .set('Content-Type', 'application/json')
@@ -61,19 +68,11 @@ describe('#UserController', function () {
             .expect(500, done);
     });
 
-
-    it('#List users', function (done) {
-        request.get('/api/users')
-            .set('Authorization', 'Bearer ' + token)
-            .set('Content-Type', 'application/json')
-            .expect('Content-Type', /json/)
-            .expect(200, done);
-    });
-
     /****                 END                  ****/
 
 
     /****               CONTACTS               ****/
+
     it('#Create a new contact', function (done) {
         var randomName = [...Array(5)].map(() => Math.random().toString(26)[3]).join('');
         var randomValue = [...Array(5)].map(() => Math.random().toString(26)[3]).join('');
@@ -83,6 +82,7 @@ describe('#UserController', function () {
             .send({ name: randomName, address: randomValue })
             .expect(200, done);
     });
+
     /****                 END                  ****/
 
 });

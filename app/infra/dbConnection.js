@@ -4,17 +4,17 @@ function createConnection() {
     
     if(!process.env.NODE_ENV) {
         return mysql.createConnection({
-            host: 'localhost',
-            user: 'root',
-            password: 'hckrlynx',
-            database: 'addressbook_dev'
+            host: process.env.DB_HOST,
+            user: process.env.DB_USERNAME,
+            password: process.env.DB_PASSWORD,
+            database: process.env.DB_NAME
         });
     }
 
     if(process.env.NODE_ENV == 'test') {
         return mysql.createConnection({
-            host: 'localhost',
-            user: 'root',
+            host: '',
+            user: '',
             password: '',
             database: 'addressbook_test'
         });

@@ -4,32 +4,37 @@ module.exports = app => {
     const jwt = app.services.jwt;
     const infra = app.infra;
     const bcrypt = app.services.bcrypt;
+    const secretKey = app.config.config.secretKey;
 
-    app.post('/api/users', verifyToken, function (req, res) {
 
-        jwt.verify(req.token, 'secretkey', (err, authData) => {
+    // Register user endpoint
+    app.post('/api/users', verifyToken, function (req, res) { 
+        // Use jwt to verify if token is valid
+        jwt.verify(req.token, secretKey, (err, authData) => {
             if (err) {
                 res.status(403).send(err.message);
             } else {
                 var username = req.body.username;
                 var password = req.body.password;
 
+                // Validate if fields are empty, return error if assert true
                 fieldsValidation(req, function (validationErrors) {
                     if (validationErrors) {
                         res.status(400).send(validationErrors);
                     } else {
-
+                        // Use bcrypt to encript password to ensure security
                         var hashedPassword = bcrypt.hashSync(password, 8);
+                        // Database connection
                         var connection = infra.dbConnection();
                         var userDAO = new infra.UsersDAO(connection);
 
-
+                        // If fields are valid, save user in database
                         userDAO.save(username, hashedPassword, function (err, result) {
                             if (err) {
                                 res.status(500).send(err.sqlMessage);
                             } else {
                                 res.json({
-                                   message: "Success registration"
+                                    message: "Registration Successful"
                                 });
                             }
                         });
@@ -42,54 +47,32 @@ module.exports = app => {
         });
     });
 
-
-    //List users - Not necessary
-    app.get('/api/users', verifyToken, function (req, res) {
-        jwt.verify(req.token, 'secretkey', (err, authData) => {
-            if (err) {
-                res.status(403).send(err.message);
-            } else {
-                var connection = infra.dbConnection();
-                var usersDAO = new infra.UsersDAO(connection);
-
-                usersDAO.list(function (err, result) {
-                    if (err) {
-                        res.status(500).send("There was a problem listing users.");
-                    } else {
-                        res.json({
-                            result: result
-                        });
-                    }
-                });
-
-                connection.end();
-
-            }
-        })
-    });
-
-
+    // Login endpoint
     app.post('/api/login', function (req, res) {
         var username = req.get('username');
         var password = req.get('password');
 
+        // Validate if fields are empty, return error if assert true
         fieldsValidation(req, function (validationErrors) {
             if (validationErrors) {
                 res.status(400).send(validationErrors);
             } else {
+                // Use bcrypt to encript password to ensure security
                 var hashedPassword = bcrypt.hashSync(password, 8);
 
                 const user = {
-                    email: username,
+                    username: username,
                     password: hashedPassword
                 };
 
-                authUser(username, password, function (err, result) {
+                // Validate if user exists in database 
+                validateUser(username, password, function (err, result) {
                     if (err) {
                         res.status(err.status).send(err.message);
                     } else {
                         if (result != undefined) {
-                            jwt.sign({ user }, 'secretkey', { expiresIn: '1h' }, (err, token) => {
+                            // Use jwt to generate token based on valid user returned from database
+                            jwt.sign({ user }, secretKey, { expiresIn: '1h' }, (err, token) => {
                                 res.json({
                                     token
                                 });
@@ -106,21 +89,25 @@ module.exports = app => {
 
     });
 
-    function authUser(username, password, callback) {
+
+    // Function to validate if user exists in database 
+    function validateUser(username, password, callback) {
         var connection = infra.dbConnection();
         var usersDAO = new infra.UsersDAO(connection);
 
+        // Execute query using username to verify if user exists.
         usersDAO.getUser(username, function (err, result) {
             if (err) {
                 callback(err, null);
             } else {
-                let dbRow;
+                let dbUser;
                 for (let i = 0; i < result.length; i++) {
-                    dbRow = result[i];
+                    dbUser = result[i];
                 }
-                if (dbRow != undefined) {
-                    if (bcrypt.compareSync(password, dbRow.password)) {
-                        callback(null, dbRow);
+                if (dbUser != undefined) {
+                    // Use bcrypt function to compare if password typed in login is equals to the hashed password stored in database
+                    if (bcrypt.compareSync(password, dbUser.password)) {
+                        callback(null, dbUser);
                     } else {
                         callback({ message: "Invalid user", status: 404 })
                     }
@@ -133,6 +120,7 @@ module.exports = app => {
 
     }
 
+    // Function to validate if fields are empty, return error if assert true
     function fieldsValidation(req, callback) {
         req.assert('username', 'Username is required').notEmpty();
         req.assert('password', 'Password is required').notEmpty();
