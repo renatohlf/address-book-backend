@@ -38,7 +38,7 @@ module.exports = app => {
                             }
                         });
 
-                        connection.end();
+                        connection.release();
                     }
                 });
 
@@ -102,7 +102,7 @@ module.exports = app => {
             }
         });
 
-        connection.end();
+        connection.release();
 
     });
 

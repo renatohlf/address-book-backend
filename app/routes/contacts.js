@@ -75,7 +75,7 @@ module.exports = app => {
                 }
             }
         });
-        connection.end();
+        connection.release();
     }
 
     // Function to validate if fields are empty, return error if assert true

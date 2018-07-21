@@ -2,7 +2,8 @@ var mysql = require('mysql');
 
 function createConnection() {
 
-    return mysql.createConnection({
+    return mysql.createPool({
+        connectionLimit : 10,
         host: process.env.DB_HOST,
         user: process.env.DB_USERNAME,
         password: process.env.DB_PASSWORD,
@@ -10,6 +11,7 @@ function createConnection() {
     });
 
 }
+
 
 module.exports = function () {
     return createConnection;
