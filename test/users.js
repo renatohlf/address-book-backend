@@ -7,8 +7,8 @@ var token = '';
 
 describe('#UserController', function () {
     beforeEach(function (done) {
-        var user = { username: "55h5j@teste.com", password: "1" };
-        token = jwt.sign({ user }, { expires: '1h' } ,secretKey);
+         var user = { username: "user@user.com", password: "123" };
+         token = jwt.sign({ user } ,secretKey, { expiresIn: '1h' });
         done();
     });
 
@@ -25,8 +25,8 @@ describe('#UserController', function () {
     it('#Login with valid fields', function (done) {
         request.post('/api/login')
             .set('Content-Type', 'application/json')
-            .set('username', '55h5j@teste.com')
-            .set('password', '1')
+            .set('username', 'user@user.com')
+            .set('password', '123')
             .expect('Content-Type', /json/)
             .expect(200, done);
     });
@@ -34,8 +34,8 @@ describe('#UserController', function () {
     it('#Login with invalid user', function (done) {
         request.post('/api/login')
             .set('Content-Type', 'application/json')
-            .set('username', 'user@teste.com')
-            .set('password', '1')
+            .set('username', 't')
+            .set('password', '123')
             .expect(404, done);
     });
 
