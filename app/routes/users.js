@@ -134,6 +134,7 @@ module.exports = app => {
 
             }
         })
+        connection.release();
 
     }
 
