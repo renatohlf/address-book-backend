@@ -6,6 +6,11 @@ module.exports = app => {
     const bcrypt = app.services.bcrypt;
     const secretKey = app.config.config.secretKey;
 
+    app.get('/', function (req, res) {
+        res.send("AddressBook");
+        
+    });
+
     // Register user endpoint
     app.post('/api/users', verifyToken, function (req, res) {
         // Use jwt to verify if token is valid
@@ -86,24 +91,6 @@ module.exports = app => {
 
         });
 
-
-    });
-
-    app.get('/api/users', function (req, res) {
-        infra.dbConnection().getConnection(function (err, connection) {
-            var usersDAO = new infra.UsersDAO(connection);
-
-            usersDAO.list(function (err, result) {
-                connection.release();
-                if (err) {
-                    res.status(500).send("There was a problem listing users.");
-                } else {
-                    res.json({
-                        result: result
-                    });
-                }
-            });
-        });
 
     });
 
