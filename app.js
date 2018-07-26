@@ -1,17 +1,17 @@
-var express = require('express');
+import express from 'express';
 var app = express();
-var cors = require('cors');
-var bodyParser = require('body-parser');
-var consign = require('consign');
-var expressValidator = require('express-validator');
+import cors from 'cors';
+import { urlencoded, json } from 'body-parser';
+import consign from 'consign';
+import expressValidator from 'express-validator';
 require('dotenv').config();
 
 // Allows any site to make request to this API
 app.use(cors());
 
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(urlencoded({ extended: true }));
 // Allows express to read the body and then parse that into a json
-app.use(bodyParser.json());
+app.use(json());
 
 app.use(expressValidator());
 
@@ -32,4 +32,4 @@ app.use(function (req, res, next) {
 });
 
 
-module.exports = app;
+export default app;

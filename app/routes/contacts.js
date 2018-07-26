@@ -1,6 +1,6 @@
 
 
-module.exports = app => {
+export default app => {
 
     const verifyToken = app.services.AuthManager.verifyToken;
     const jwt = app.services.jwt;
@@ -33,7 +33,7 @@ module.exports = app => {
                                 // Create a node to the logged in user id
                                 var contactRef = ref.child(user.id);
                                 // Contact to be stored
-                                var contact = { name: name, address: address }
+                                var contact = { name: name, address: address };
                                 // Create a contact object to the current user node.
                                 contactRef.push(contact);
 
@@ -87,4 +87,4 @@ module.exports = app => {
         callback(req.validationErrors());
 
     }
-}
+};

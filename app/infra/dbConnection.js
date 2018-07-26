@@ -1,8 +1,8 @@
-var mysql = require('mysql');
+import { createPool } from 'mysql';
 
 function createConnection() {
 
-    return mysql.createPool({
+    return createPool({
         connectionLimit : 10,
         host: process.env.DB_HOST,
         user: process.env.DB_USERNAME,
@@ -13,6 +13,6 @@ function createConnection() {
 }
 
 
-module.exports = function () {
+export default function () {
     return createConnection;
 }

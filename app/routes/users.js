@@ -115,14 +115,14 @@ module.exports = app => {
                         if (bcrypt.compareSync(password, dbUser.password)) {
                             callback(null, dbUser);
                         } else {
-                            callback({ message: "Invalid user", status: 404 })
+                            callback({ message: "Invalid user", status: 404 });
                         }
                     } else {
-                        callback({ message: "Invalid user", status: 404 }, null)
+                        callback({ message: "Invalid user", status: 404 }, null);
                     }
 
                 }
-            })
+            });
 
         });
 

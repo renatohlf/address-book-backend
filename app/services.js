@@ -1,15 +1,15 @@
-var jwt = require('jsonwebtoken');
-var AuthManager = require('./controllers/auth-manager');
-var bcrypt = require('bcryptjs');
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
+import AuthManager from './controllers/auth-manager';
 
 
-module.exports = function() {
+export default function() {
     //Load services
     var services = {
         jwt,
         AuthManager,
         bcrypt
-    }
+    };
 
     return services;
 }
