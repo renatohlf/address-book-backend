@@ -15,8 +15,8 @@ export default app => {
             if (err) {
                 res.status(403).send(err.message);
             } else {
-                var name = req.body.name;
-                var address = req.body.address;
+                let name = req.body.name;
+                let address = req.body.address;
 
                 // Validate if fields are empty, return error if assert true
                 fieldsValidation(req, function (validationErrors) {
@@ -29,11 +29,11 @@ export default app => {
                                 res.status(500).send(error);
                             } else {
                                 // Root node named contacts to store contacts data
-                                var ref = firebase.database().ref().child('contacts');
+                                let ref = firebase.database().ref().child('contacts');
                                 // Create a node to the logged in user id
-                                var contactRef = ref.child(user.id);
+                                let contactRef = ref.child(user.id);
                                 // Contact to be stored
-                                var contact = { name: name, address: address };
+                                let contact = { name: name, address: address };
                                 // Create a contact object to the current user node.
                                 contactRef.push(contact);
 
@@ -53,7 +53,7 @@ export default app => {
     //Function to get existing user in database.
     function getUser(username, callback) {
         infra.dbConnection().getConnection(function (err, connection) {
-            var userDAO = new infra.UsersDAO(connection);
+            let userDAO = new infra.UsersDao(connection);
 
             // Execute query using username to verify if user exists.
             userDAO.getUser(username, function (error, result) {

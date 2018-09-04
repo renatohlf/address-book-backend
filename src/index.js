@@ -1,10 +1,11 @@
-import express from 'express';
-var app = express();
-import cors from 'cors';
-import { urlencoded, json } from 'body-parser';
+import { json, urlencoded } from 'body-parser';
 import consign from 'consign';
+import cors from 'cors';
+import express from 'express';
 import expressValidator from 'express-validator';
+const app = express();
 require('dotenv').config();
+const port = process.env.PORT || 3000;
 
 // Allows any site to make request to this API
 app.use(cors());
@@ -31,5 +32,8 @@ app.use(function (req, res, next) {
     next();
 });
 
+app.listen(port, ()=> {
+    console.log(`Started on port ${port}`);
+});
 
 export default app;

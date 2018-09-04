@@ -13,6 +13,6 @@ function createConnection() {
 }
 
 
-export default function () {
+export default function connection() {
     return createConnection;
 }
