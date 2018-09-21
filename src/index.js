@@ -5,7 +5,7 @@ import express from 'express';
 import expressValidator from 'express-validator';
 const app = express();
 require('dotenv').config();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 8080;
 
 // Allows any site to make request to this API
 app.use(cors());
@@ -19,21 +19,23 @@ app.use(expressValidator());
 
 // Load and include files to be used into app.
 consign({
-    verbose: false,
-    cwd: process.cwd()+"/app"
-}).include('config')
-    .then('services.js')
-    .then('infra')
-    .then('routes')
-    .into(app);
+	verbose: false,
+})
+	.include('config')
+	.then('connection.js')
+	.then('services.js')
+	.then('users')
+	.into(app);
 
-app.use(function (req, res, next) {
-    res.status(404).send('Not found');
-    next();
+app.use(function (err, req, res, next) {
+	if(err.isJoi) {
+		res.status(404).send(err);
+	}
+	
 });
 
 app.listen(port, ()=> {
-    console.log(`Started on port ${port}`);
+	console.log(`Started on port ${port}`);
 });
 
 export default app;
