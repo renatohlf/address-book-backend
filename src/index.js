@@ -19,20 +19,14 @@ app.use(expressValidator());
 
 // Load and include files to be used into app.
 consign({
-	verbose: false,
+	verbose: true,
+	cwd: process.cwd()+'/src'
 })
 	.include('config')
 	.then('connection.js')
 	.then('services.js')
-	.then('users')
+	.then('routes')
 	.into(app);
-
-app.use(function (err, req, res, next) {
-	if(err.isJoi) {
-		res.status(404).send(err);
-	}
-	
-});
 
 app.listen(port, ()=> {
 	console.log(`Started on port ${port}`);
