@@ -51,6 +51,7 @@ Controller.prototype.updateContact = async function (id, first_name, last_name, 
 
 Controller.prototype.createContact = async function (first_name, last_name, email, phone) {
 	try {
+		//TODO: Change 'where' condition
 		return await this.Contact.findOrCreate({ where: { phone: phone }, defaults: { first_name: first_name, last_name: last_name, email: email, phone: phone } });
 	} catch (err) {
 		throw err;

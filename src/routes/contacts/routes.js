@@ -20,9 +20,9 @@ function contact(app) {
 			const result = await controller.createContact(first_name, last_name, email, phone);
 			let created = result[1];
 			if (created) {
-				res.status(200).send('User created');
+				res.status(200).send('Contact created');
 			} else {
-				res.status(400).send('User already exists');
+				res.status(400).send('Contact already exists');
 			}
 		} catch (err) {
 			res.status(400).send(err.message);
@@ -39,9 +39,9 @@ function contact(app) {
 		try {
 			const result = await controller.updateContact(id, first_name, last_name, email, phone);
 			if (result) {
-				res.status(200).send('User updated');
+				res.status(200).send('Contact updated');
 			} else {
-				res.status(400).send('No rows updated');
+				res.status(400).send('Contact can not be updated');
 			}
 		} catch(err) {
 			res.status(400).send(err.message);
@@ -52,12 +52,12 @@ function contact(app) {
 	app.delete('/api/contacts/:contactId', async function (req,res) {
 		const id = req.params.contactId;
 		try {
-			//TODO: Find user first, after try to delete.
+			//TODO: Find contact first, after try to delete.
 			const result = await controller.deleteContact(id);
 			if(result) {
-				res.status(200).send('User deleted');
+				res.status(200).send('Contact deleted');
 			} else {
-				res.status(400).send('No user deleted');
+				res.status(400).send('No contact deleted');
 			}
 		} catch(err) {
 			res.status(400).send(err.message);
