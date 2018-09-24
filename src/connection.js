@@ -2,9 +2,9 @@ import { readdirSync } from 'fs';
 import { join } from 'path';
 import Sequelize from 'sequelize';
 
-let conn = null;
 
 function connection(app) {
+	let conn = null;
 	const env = process.env.NODE_ENV;
 	const config = env ? app.config.database[env] : app.config.database['development'];
 

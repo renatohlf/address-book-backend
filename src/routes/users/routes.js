@@ -1,9 +1,7 @@
 function User(app) {
-
-	let controller = app.routes.users.controller;
+	const controller = app.routes.users.controller;
 
 	app.get('/api/users', async function (req, res) {
-
 		try {
 			let users = await controller.getUsers();
 			res.status(200).send({ users: users });
