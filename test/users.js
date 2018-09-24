@@ -1,14 +1,14 @@
-var request = require('supertest')('https://floating-citadel-16549.herokuapp.com');
-var jwt = require('jsonwebtoken');
+const request = require('supertest')('https://floating-citadel-16549.herokuapp.com');
+import { sign } from 'jsonwebtoken';
 require('dotenv').config({ path: './../.env' });
-var config = require('./../app/config/config');
-var secretKey = config.secretKey;
-var token = '';
+import { secretKey as _secretKey } from './../app/config/config';
+const secretKey = _secretKey;
+let token = '';
 
 describe('#UserController', function () {
     beforeEach(function (done) {
-         var user = { username: "user@user.com", password: "123" };
-         token = jwt.sign({ user } ,secretKey, { expiresIn: '1h' });
+         let user = { username: "user@user.com", password: "123" };
+         token = sign({ user } ,secretKey, { expiresIn: '1h' });
         done();
     });
 
@@ -74,8 +74,8 @@ describe('#UserController', function () {
     /****               CONTACTS               ****/
 
     it('#Create a new contact', function (done) {
-        var randomName = [...Array(5)].map(() => Math.random().toString(26)[3]).join('');
-        var randomValue = [...Array(5)].map(() => Math.random().toString(26)[3]).join('');
+        let randomName = [...Array(5)].map(() => Math.random().toString(26)[3]).join('');
+        let randomValue = [...Array(5)].map(() => Math.random().toString(26)[3]).join('');
         request.post('/api/contacts')
             .set('Authorization', 'Bearer ' + token)
             .set('Content-Type', 'application/json')
