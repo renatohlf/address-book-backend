@@ -1,7 +1,7 @@
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+	value: true
 });
 
 var _bodyParser = require('body-parser');
@@ -26,7 +26,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var app = (0, _express2.default)();
 require('dotenv').config();
-var port = process.env.PORT || 3000;
+var port = process.env.PORT || 8080;
 
 // Allows any site to make request to this API
 app.use((0, _cors2.default)());
@@ -39,17 +39,12 @@ app.use((0, _expressValidator2.default)());
 
 // Load and include files to be used into app.
 (0, _consign2.default)({
-    verbose: false,
-    cwd: process.cwd() + "/app"
-}).include('config').then('services.js').then('infra').then('routes').into(app);
-
-app.use(function (req, res, next) {
-    res.status(404).send('Not found');
-    next();
-});
+	verbose: true,
+	cwd: process.cwd() + '/src'
+}).include('config').then('connection.js').then('services.js').then('routes').into(app);
 
 app.listen(port, function () {
-    console.log('Started on port ' + port);
+	console.log('Started on port ' + port);
 });
 
 exports.default = app;
