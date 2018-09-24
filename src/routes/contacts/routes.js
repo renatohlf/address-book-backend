@@ -1,5 +1,5 @@
 function contact(app) {
-	let controller = app.routes.contacts.controller;
+	const controller = app.routes.contacts.controller;
 
 	app.get('/api/contacts', async function (req, res) {
 		try {
