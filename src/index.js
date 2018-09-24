@@ -19,7 +19,7 @@ app.use(expressValidator());
 
 // Load and include files to be used into app.
 consign({
-	verbose: true,
+	verbose: false,
 	cwd: process.cwd()+'/src'
 })
 	.include('config')
@@ -29,7 +29,7 @@ consign({
 	.into(app);
 
 app.listen(port, ()=> {
-	console.log(`Started on port ${port}`);
+	console.log(`Address-book started on port ${port}`);
 });
 
 export default app;
