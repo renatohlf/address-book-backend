@@ -9,10 +9,21 @@ function Controller(app) {
 }
 
 Controller.prototype.login = async function (user) {
-	
+
 	// Use jwt to generate token based on valid user returned from database
-	this.jwt.sign({ user }, this.secretKey, { expiresIn: '1h' }, (err, token) => {
-		console.log(token);
+	const token =  await this.jwt.sign({ user }, this.secretKey, { expiresIn: '1h' });
+
+	return token;
+
+};
+
+Controller.prototype.getUser = async function (user) {
+	return this.User.findOne({ where: { email: user.username } }).then(user => {
+		if (user != null) {
+			return true;
+		} else {
+			return false;
+		}
 	});
 };
 

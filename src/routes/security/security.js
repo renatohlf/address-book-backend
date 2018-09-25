@@ -15,7 +15,13 @@ function security(app) {
 		};
 
 		try{
-			this.controller.login(user);
+			const userExists = await controller.getUser(user);
+			if(userExists){
+				const token = await controller.login(user);
+				res.status(200).send({token});
+			} else {
+				res.status(400).send('Invalid user');
+			}
 		} catch (err) {
 			res.status(400).send(err.message);
 		}
