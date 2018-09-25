@@ -25,7 +25,7 @@ Controller.prototype.getContacts = async function () {
 
 Controller.prototype.updateContact = async function (id, first_name, last_name, email, phone) {
 	try {
-		return await this.Contact.update(
+		return this.Contact.update(
 			{
 				first_name: first_name,
 				last_name: last_name,
@@ -52,7 +52,7 @@ Controller.prototype.updateContact = async function (id, first_name, last_name, 
 Controller.prototype.createContact = async function (first_name, last_name, email, phone) {
 	try {
 		//TODO: Change 'where' condition
-		return await this.Contact.findOrCreate({ where: { phone: phone }, defaults: { first_name: first_name, last_name: last_name, email: email, phone: phone } });
+		return this.Contact.findOrCreate({ where: { phone: phone }, defaults: { first_name: first_name, last_name: last_name, email: email, phone: phone } });
 	} catch (err) {
 		throw err;
 	}
@@ -60,7 +60,7 @@ Controller.prototype.createContact = async function (first_name, last_name, emai
 
 Controller.prototype.deleteContact = async function (id) {
 	try {
-		return await this.Contact.destroy({ 
+		return this.Contact.destroy({ 
 			where: { 
 				id: id
 			}

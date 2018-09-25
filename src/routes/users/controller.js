@@ -11,7 +11,7 @@ Controller.prototype.getUsers = async function () {
 	let listUsers = [];
 
 	try {
-		users = await this.User.findAll();
+		users = this.User.findAll();
 
 		for (let user of users) {
 			listUsers.push(user);
@@ -25,7 +25,7 @@ Controller.prototype.getUsers = async function () {
 
 Controller.prototype.updateUser = async function (id, name, email) {
 	try {
-		return await this.User.update(
+		return this.User.update(
 			{
 				name: name,
 				email: email
@@ -49,7 +49,7 @@ Controller.prototype.updateUser = async function (id, name, email) {
 
 Controller.prototype.createUser = async function (name, email, password) {
 	try {
-		return await this.User.findOrCreate({ where: { email: email }, defaults: { name: name, email: email, password: password } });
+		return this.User.findOrCreate({ where: { email: email }, defaults: { name: name, email: email, password: password } });
 	} catch (err) {
 		throw err;
 	}
@@ -57,7 +57,7 @@ Controller.prototype.createUser = async function (name, email, password) {
 
 Controller.prototype.deleteUser = async function (id) {
 	try {
-		return await this.User.destroy({ 
+		return this.User.destroy({ 
 			where: { 
 				id: id
 			}
