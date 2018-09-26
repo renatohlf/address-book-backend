@@ -1,17 +1,19 @@
-export function verifyToken (req, res, next) {
-    const bearerHeader = req.headers.authorization;
+function verifyToken(req, res, next) {
+	const bearerHeader = req.headers.authorization;
 
-    if (typeof bearerHeader !== 'undefined') {
+	if (typeof bearerHeader !== 'undefined') {
 
-        const bearer = bearerHeader.split(' ');
+		const bearer = bearerHeader.split(' ');
 
-        const bearerToken = bearer[1];
+		const bearerToken = bearer[1];
 
-        req.token = bearerToken;
+		req.token = bearerToken;
 
-        next();
-    } else {
-        // Forbidden
-        res.sendStatus(403);
-    }
+		next();
+	} else {
+		// Forbidden
+		res.sendStatus(403);
+	}
 }
+
+exports.verifyToken = verifyToken;
