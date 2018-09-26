@@ -1,12 +1,13 @@
 function User(app) {
 	const controller = app.routes.users.controller;
+	const bcrypt = app.services.bcrypt;
 
 	app.get('/api/users', async function (req, res) {
 		try {
 			let users = await controller.getUsers();
 			res.status(200).send({ users: users });
 		} catch (err) {
-			res.status(400).send(err);
+			res.status(400).send(err.message);
 		}
 
 	});
@@ -15,12 +16,12 @@ function User(app) {
 		const name = req.body.name;
 		const email = req.body.email;
 		const password = req.body.password;
-		const confirm_password = req.body.confirm_password;
 
-		//TODO: Encrypt password using bcrypt.
+		let hashedPassword = await bcrypt.hash(password, 8);
+
 		try {
-			// TODO: Validate passwords before create user.
-			const result = await controller.createUser(name, email, password);
+			
+			const result = await controller.createUser(name, email, hashedPassword);
 			let created = result[1];
 			if (created) {
 				res.status(200).send('User created');
