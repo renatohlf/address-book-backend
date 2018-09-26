@@ -1,22 +1,20 @@
 function security(app) {
-	const bcrypt = app.services.bcrypt;
 	const controller = app.routes.security.controller;
 
 	app.post('/api/login', async function (req, res) {
 
 		let username = req.get('username');
 		let password = req.get('password');
-
-		let hashedPassword = await bcrypt.hash(password, 8);
+	
 
 		const user = {
 			username: username,
-			password: hashedPassword
+			password: password
 		};
 
 		try{
-			const userExists = await controller.getUser(user);
-			if(userExists){
+			const validUser = await controller.verifyUser(user);
+			if(validUser){
 				const token = await controller.login(user);
 				res.status(200).send({token});
 			} else {
