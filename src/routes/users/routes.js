@@ -1,8 +1,9 @@
 function User(app) {
 	const controller = app.routes.users.controller;
 	const bcrypt = app.services.bcrypt;
+	const verifytoken = app.services.authManager.verifyToken;
 
-	app.get('/api/users', async function (req, res) {
+	app.get('/api/users', verifytoken, async function (req, res) {
 		try {
 			let users = await controller.getUsers();
 			res.status(200).send({ users: users });
@@ -34,7 +35,7 @@ function User(app) {
 
 	});
 
-	app.put('/api/users/:userId', async function (req, res) {
+	app.put('/api/users/:userId', verifytoken, async function (req, res) {
 		const name = req.body.name;
 		const email = req.body.email;
 		const id = req.params.userId;
@@ -52,7 +53,7 @@ function User(app) {
 
 	});
 
-	app.delete('/api/users/:userId', async function (req,res) {
+	app.delete('/api/users/:userId', verifytoken, async function (req,res) {
 		const id = req.params.userId;
 		try {
 			//TODO: Find user first, after try to delete.

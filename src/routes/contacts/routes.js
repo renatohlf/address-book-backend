@@ -1,7 +1,8 @@
 function contact(app) {
 	const controller = app.routes.contacts.controller;
+	const verifytoken = app.services.authManager.verifyToken;
 
-	app.get('/api/contacts', async function (req, res) {
+	app.get('/api/contacts', verifytoken, async function (req, res) {
 		try {
 			const contacts = await controller.getContacts();
 			res.status(200).send({ contacts: contacts });
@@ -10,7 +11,7 @@ function contact(app) {
 		}
 	});
 
-	app.post('/api/contacts', async function (req, res) { 
+	app.post('/api/contacts', verifytoken, async function (req, res) { 
 		const first_name = req.body.first_name;
 		const last_name = req.body.last_name;
 		const email = req.body.email;
@@ -29,7 +30,7 @@ function contact(app) {
 		}
 	});
 
-	app.put('/api/contacts/:contactId', async function (req, res) {
+	app.put('/api/contacts/:contactId', verifytoken, async function (req, res) {
 		const first_name = req.body.first_name;
 		const last_name = req.body.last_name;
 		const email = req.body.email;
@@ -49,7 +50,7 @@ function contact(app) {
 
 	});
 
-	app.delete('/api/contacts/:contactId', async function (req,res) {
+	app.delete('/api/contacts/:contactId', verifytoken, async function (req,res) {
 		const id = req.params.contactId;
 		try {
 			//TODO: Find contact first, after try to delete.
