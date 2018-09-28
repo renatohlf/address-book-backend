@@ -21,14 +21,19 @@ class Controller {
 
 				if (_user != null) {
 					const match = await this.bcrypt.compare(user.password, _user.password);
+					const payload = {
+						name: _user.name,
+						username: _user.email
+					}
+
 					if (match) {
-						return true;
+						return payload;
 					} else {
-						return false;
+						return null;
 					}
 				}
 				else {
-					return false;
+					return null;
 				}
 			});
 		} catch (err) {
