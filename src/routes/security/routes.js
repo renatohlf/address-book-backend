@@ -14,8 +14,8 @@ function security(app) {
 
 		try{
 			const validUser = await controller.verifyUser(user);
-			if(validUser){
-				const token = await controller.login(user);
+			if(validUser != null){
+				const token = await controller.login(validUser);
 				res.status(200).send({token});
 			} else {
 				res.status(400).send('Invalid user');

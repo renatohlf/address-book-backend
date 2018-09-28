@@ -27,7 +27,7 @@ function User(app) {
 			if (created) {
 				res.status(200).send('User created');
 			} else {
-				res.status(400).send('User already exists');
+				res.status(409).send('User already exists');
 			}
 		} catch (err) {
 			res.status(400).send(err.message);

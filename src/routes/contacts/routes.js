@@ -23,7 +23,7 @@ function contact(app) {
 			if (created) {
 				res.status(200).send('Contact created');
 			} else {
-				res.status(400).send('Contact already exists');
+				res.status(409).send('Contact already exists');
 			}
 		} catch (err) {
 			res.status(400).send(err.message);
