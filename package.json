@@ -4,13 +4,13 @@
   "description": "RESTful API in Node.js for an AddressBook",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha --compilers js:babel-core/register",
     "dev": "nodemon -w src --exec \"babel-node src --presets env\"",
     "build": "rimraf dist && babel src -s -D -d dist --presets env",
     "start": "node dist"
   },
   "engines": {
-    "node": "8.11.1"
+    "node": "10.11.0"
   },
   "repository": {
     "type": "git",
@@ -29,16 +29,20 @@
     "dotenv": "^6.0.0",
     "eslint": "^5.5.0",
     "express": "^4.16.3",
+    "express-pino-logger": "^4.0.0",
     "express-validator": "^5.2.0",
     "firebase": "^5.3.0",
     "jsonwebtoken": "^8.3.0",
     "mysql": "^2.16.0",
     "mysql2": "^1.6.1",
     "rimraf": "^2.6.2",
-    "sequelize": "^4.38.1"
+    "sequelize": "^4.38.1",
+    "superagent": "^4.0.0-beta.5"
   },
   "devDependencies": {
+    "chai": "^4.2.0",
     "mocha": "^5.2.0",
+    "sinon": "^6.3.4",
     "supertest": "^3.1.0"
   }
 }

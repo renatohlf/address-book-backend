@@ -12,9 +12,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-var conn = null;
-
 function connection(app) {
+	var conn = null;
 	var env = process.env.NODE_ENV;
 	var config = env ? app.config.database[env] : app.config.database['development'];
 

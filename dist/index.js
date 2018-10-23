@@ -39,12 +39,12 @@ app.use((0, _expressValidator2.default)());
 
 // Load and include files to be used into app.
 (0, _consign2.default)({
-	verbose: true,
+	verbose: false,
 	cwd: process.cwd() + '/src'
 }).include('config').then('connection.js').then('services.js').then('routes').into(app);
 
 app.listen(port, function () {
-	console.log('Started on port ' + port);
+	console.log('Address-book started on port ' + port);
 });
 
 exports.default = app;
