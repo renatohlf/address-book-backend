@@ -1,3 +1,3 @@
 # Procfile
 
-web: ./node_modules/.bin/babel-node index.js
+web: ./node_modules/.bin/babel-node src/index.js
