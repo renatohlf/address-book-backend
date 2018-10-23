@@ -56,11 +56,30 @@ class Controller {
 			throw err;
 		}
 	}
-	async deleteUser(id) {
+	async deleteUserById(id) {
 		try {
 			return this.User.destroy({
 				where: {
 					id: id
+				}
+			}).then((result) => {
+				if (result > 0) {
+					return true;
+				}
+				else {
+					return false;
+				}
+			});
+		}
+		catch (err) {
+			throw err;
+		}
+	}
+	async deleteUserByEmail(email) {
+		try {
+			return this.User.destroy({
+				where: {
+					email: email
 				}
 			}).then((result) => {
 				if (result > 0) {

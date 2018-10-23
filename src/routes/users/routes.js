@@ -57,7 +57,22 @@ function User(app) {
 		const id = req.params.userId;
 		try {
 			//TODO: Find user first, after try to delete.
-			const result = await controller.deleteUser(id);
+			const result = await controller.deleteUserById(id);
+			if(result) {
+				res.status(200).send('User deleted');
+			} else {
+				res.status(400).send('No user deleted');
+			}
+		} catch(err) {
+			res.status(400).send(err.message);
+		}
+	});
+
+	app.delete('/api/users/', verifytoken, async function (req,res) {
+		const email = req.body.email;
+		try {
+			//TODO: Find user first, after try to delete.
+			const result = await controller.deleteUserByEmail(email);
 			if(result) {
 				res.status(200).send('User deleted');
 			} else {
