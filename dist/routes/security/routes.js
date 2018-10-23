@@ -25,13 +25,13 @@ function security(app) {
 						case 6:
 							validUser = _context.sent;
 
-							if (!validUser) {
+							if (!(validUser != null)) {
 								_context.next = 14;
 								break;
 							}
 
 							_context.next = 10;
-							return controller.login(user);
+							return controller.login(validUser);
 
 						case 10:
 							token = _context.sent;

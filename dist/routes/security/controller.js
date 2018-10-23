@@ -63,13 +63,13 @@ var Controller = function () {
 								_context3.prev = 0;
 								return _context3.abrupt('return', this.User.findOne({ where: { email: user.username } }).then(function () {
 									var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(_user) {
-										var match;
+										var match, payload;
 										return regeneratorRuntime.wrap(function _callee2$(_context2) {
 											while (1) {
 												switch (_context2.prev = _context2.next) {
 													case 0:
 														if (!(_user != null)) {
-															_context2.next = 11;
+															_context2.next = 12;
 															break;
 														}
 
@@ -78,25 +78,29 @@ var Controller = function () {
 
 													case 3:
 														match = _context2.sent;
+														payload = {
+															name: _user.name,
+															username: _user.email
+														};
 
 														if (!match) {
-															_context2.next = 8;
+															_context2.next = 9;
 															break;
 														}
 
-														return _context2.abrupt('return', true);
-
-													case 8:
-														return _context2.abrupt('return', false);
+														return _context2.abrupt('return', payload);
 
 													case 9:
-														_context2.next = 12;
+														return _context2.abrupt('return', null);
+
+													case 10:
+														_context2.next = 13;
 														break;
 
-													case 11:
-														return _context2.abrupt('return', false);
-
 													case 12:
+														return _context2.abrupt('return', null);
+
+													case 13:
 													case 'end':
 														return _context2.stop();
 												}
