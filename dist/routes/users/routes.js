@@ -70,7 +70,7 @@ function User(app) {
 							if (created) {
 								res.status(200).send('User created');
 							} else {
-								res.status(400).send('User already exists');
+								res.status(409).send('User already exists');
 							}
 							_context2.next = 17;
 							break;
@@ -148,7 +148,7 @@ function User(app) {
 							id = req.params.userId;
 							_context4.prev = 1;
 							_context4.next = 4;
-							return controller.deleteUser(id);
+							return controller.deleteUserById(id);
 
 						case 4:
 							result = _context4.sent;
@@ -177,6 +177,48 @@ function User(app) {
 
 		return function (_x7, _x8) {
 			return _ref4.apply(this, arguments);
+		};
+	}());
+
+	app.delete('/api/users/', verifytoken, function () {
+		var _ref5 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(req, res) {
+			var email, result;
+			return regeneratorRuntime.wrap(function _callee5$(_context5) {
+				while (1) {
+					switch (_context5.prev = _context5.next) {
+						case 0:
+							email = req.body.email;
+							_context5.prev = 1;
+							_context5.next = 4;
+							return controller.deleteUserByEmail(email);
+
+						case 4:
+							result = _context5.sent;
+
+							if (result) {
+								res.status(200).send('User deleted');
+							} else {
+								res.status(400).send('No user deleted');
+							}
+							_context5.next = 11;
+							break;
+
+						case 8:
+							_context5.prev = 8;
+							_context5.t0 = _context5['catch'](1);
+
+							res.status(400).send(_context5.t0.message);
+
+						case 11:
+						case 'end':
+							return _context5.stop();
+					}
+				}
+			}, _callee5, this, [[1, 8]]);
+		}));
+
+		return function (_x9, _x10) {
+			return _ref5.apply(this, arguments);
 		};
 	}());
 }

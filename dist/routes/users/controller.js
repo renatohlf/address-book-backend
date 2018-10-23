@@ -184,7 +184,7 @@ var Controller = function () {
 			return createUser;
 		}()
 	}, {
-		key: "deleteUser",
+		key: "deleteUserById",
 		value: function () {
 			var _ref4 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(id) {
 				return regeneratorRuntime.wrap(function _callee4$(_context4) {
@@ -217,11 +217,51 @@ var Controller = function () {
 				}, _callee4, this, [[0, 4]]);
 			}));
 
-			function deleteUser(_x7) {
+			function deleteUserById(_x7) {
 				return _ref4.apply(this, arguments);
 			}
 
-			return deleteUser;
+			return deleteUserById;
+		}()
+	}, {
+		key: "deleteUserByEmail",
+		value: function () {
+			var _ref5 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(email) {
+				return regeneratorRuntime.wrap(function _callee5$(_context5) {
+					while (1) {
+						switch (_context5.prev = _context5.next) {
+							case 0:
+								_context5.prev = 0;
+								return _context5.abrupt("return", this.User.destroy({
+									where: {
+										email: email
+									}
+								}).then(function (result) {
+									if (result > 0) {
+										return true;
+									} else {
+										return false;
+									}
+								}));
+
+							case 4:
+								_context5.prev = 4;
+								_context5.t0 = _context5["catch"](0);
+								throw _context5.t0;
+
+							case 7:
+							case "end":
+								return _context5.stop();
+						}
+					}
+				}, _callee5, this, [[0, 4]]);
+			}));
+
+			function deleteUserByEmail(_x8) {
+				return _ref5.apply(this, arguments);
+			}
+
+			return deleteUserByEmail;
 		}()
 	}]);
 
