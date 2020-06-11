@@ -1,1 +1,0 @@
-{"version":3,"sources":["../../src/config/config.js"],"names":["secretKey","process","env","SECRET_KEY"],"mappings":";;;;;AAAO,IAAMA,gCAAYC,QAAQC,GAAR,CAAYC,UAA9B","file":"config.js","sourcesContent":["export const secretKey = process.env.SECRET_KEY;"]}

@@ -1,0 +1,7 @@
+# Prisma Migrate lockfile v1
+
+20200611043925-create-users
+20200611050021-create-contacts
+20200611050900-user-unique
+20200611083456
+20200611084229

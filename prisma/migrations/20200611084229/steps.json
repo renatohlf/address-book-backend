@@ -1,0 +1,17 @@
+{
+  "version": "0.3.14-fixed",
+  "steps": [
+    {
+      "tag": "UpdateField",
+      "model": "Contact",
+      "field": "userId",
+      "arity": "Optional"
+    },
+    {
+      "tag": "UpdateField",
+      "model": "Contact",
+      "field": "user",
+      "arity": "Optional"
+    }
+  ]
+}
