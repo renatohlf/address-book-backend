@@ -7,7 +7,7 @@ import routes from './routes.js';
 const app = express();
 
 dotenv.config({
-    path: process.env.NODE_ENV === 'test' ? '.env.test' : '.env'
+    path: '.env'
 });
 
 // Allows any site to make request to this API
