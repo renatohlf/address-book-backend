@@ -23,6 +23,7 @@ async function login(req, res) {
         return res.status(200).send({ user, token });
 
     }).catch( err => {
+        console.log(err);
         if (err.code === 'P2016') return res.status(404).send("User not found");
 
         return res.status(400).send(err);
