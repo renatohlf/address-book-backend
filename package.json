@@ -8,9 +8,9 @@
     "node": "^14.3.0"
   },
   "scripts": {
-    "test": "mocha --compilers js:babel-core/register",
-    "dev": "nodemon src/index.js",
-    "start": "node src/index.js"
+    "test": "NODE_ENV=test mocha --compilers js:babel-core/register",
+    "dev": "NODE_ENV=developent nodemon src/index.js",
+    "start": "NODE_ENV=production node src/index.js"
   },
   "author": "Renato H. L. Farias",
   "license": "ISC",
