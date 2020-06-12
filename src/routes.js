@@ -8,7 +8,7 @@ import authenticated from './app/middlewares/AuthMiddleware.js';
 const routes = express.Router();
 
 // User
-routes.get('/api/users', UserController.getUsers);
+routes.get('/api/users', authenticated, UserController.getUsers);
 routes.patch('/api/user/:userId', authenticated, UserController.updateUser);
 routes.delete('/api/user', authenticated, UserController.deleteUser);
 
