@@ -10,7 +10,7 @@ async function login(req, res) {
         username: req.get("username"),
         password: req.get("password"),
     };
-
+    console.log(credentials);
     await prisma.user.findOne({
         where: { email: credentials.username }
     }).then(async (user) => {
@@ -19,7 +19,7 @@ async function login(req, res) {
         }
 
         const token = generateToken({ userId: user.id, email: user.email, name: user.name });
-    
+        user.password = undefined;
         return res.status(200).send({ user, token });
 
     }).catch( err => {
