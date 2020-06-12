@@ -19,7 +19,14 @@ async function login(req, res) {
         return res.status(400).json({ error: "Invalid password" });
     }
 
-    return res.status(200).send({ user });
+    const token = generateToken({
+        userId: user.id,
+        email: user.email,
+        name: user.name,
+    });
+    user.password = undefined;
+
+    return res.status(200).send({ user, token });
 
   } catch (error) {
     return res.status(400).send({ error });
