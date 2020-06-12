@@ -4,9 +4,10 @@ const { PrismaClient } = prismaClient;
 const prisma = new PrismaClient()
 
 async function getContacts(req, res) {
-
-    await prisma.contact.findMany()
+    const userEmail = req.get("userEmail");
+    await prisma.contact.findMany({ where: { user: { email: userEmail }}})
     .then((contacts)=> {
+        console.log(contacts)
         return res.status(200).send({ contacts });
     }).catch( err => {
         return res.status(400).send(err);
@@ -14,7 +15,8 @@ async function getContacts(req, res) {
 }
 
 async function newContact(req, res) {
-    const { firstName, lastName, email, userEmail, phone } = req.body;
+    const userEmail = req.get("userEmail");
+    const { firstName, lastName, email, phone } = req.body;
 
     if(!userEmail) return res.status(409).send('User not informed');
     

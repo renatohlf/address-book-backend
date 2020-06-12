@@ -4,7 +4,6 @@ const { PrismaClient } = prismaClient;
 const prisma = new PrismaClient()
 
 async function getUsers(req, res) {
-
     await prisma.user.findMany().then((users) => {
         return res.status(200).send({ users: users });
     }).catch(err => {
