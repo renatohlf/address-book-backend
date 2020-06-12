@@ -7,8 +7,8 @@ const prisma = new PrismaClient();
 
 async function login(req, res) {
     const credentials = {
-        username: req.get("username"),
-        password: req.get("password"),
+        username: req.body.username,// req.get("username"),
+        password: req.body.password //req.get("password"),
     };
     console.log(credentials);
     await prisma.user.findOne({
@@ -26,7 +26,7 @@ async function login(req, res) {
         console.log(err);
         if (err.code === 'P2016') return res.status(404).send("User not found");
 
-        return res.status(400).send(err);
+        return res.status(400).send({err, credentials});
     });
 }
 
