@@ -4,14 +4,13 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 import express from 'express';
 import routes from './routes.js';
-
-Sentry.init({ dsn: 'https://118c5da6c2954c2f804933909645bed1@o407076.ingest.sentry.io/5275628' });
-
-const app = express();
-
 dotenv.config({
     path: '.env'
 });
+
+Sentry.init({ dsn: process.env.SENTRY });
+
+const app = express();
 
 // Allows any site to make request to this API
 app.use(cors());
