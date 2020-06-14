@@ -1,4 +1,4 @@
-# Address-book
+# Address book
 
 #### RESTful API for an AddressBook
 
@@ -11,20 +11,22 @@
   - [yarn dev](#yarn-dev)
   - [yarn start](#yarn-start)
   - [yarn test](#yarn-test)
-  - [yarn build](#yarn-build)
-  - [yarn rs](#yarn-rs)
 
 - [Troubleshooting](#troubleshooting-1)
-  - [`yarn dev` mongodb not running](#yarn-dev-mongodb-not-running)
+
 - [Something Missing?](#something-missing)
 
 ## Technologies
 - Node.js
 - Express
-- MongoDB
-- Mongoose
-- Jest
+- Postgresql
+- Prisma.io v2
 - JWT
+- Tests
+  - Mocha
+  - Chai
+  - Sinon
+  - Supertest
 
 ## Getting Started
 
@@ -34,13 +36,7 @@ Start by installing the dependencies
     yarn install
 ```
 
-Start Mongodb with Replica Sets
-
-```bash 
-    yarn rs
-```
-
-In another terminal, run the application using nodemon
+Run the application using nodemon
 
 ```bash 
     yarn dev
@@ -63,21 +59,8 @@ Runs the app in the production mode<br>
 
 Launches the test runner in the interactive watch mode.<br>
 
-### `yarn build`
-
-Builds the app for production to the `build` folder.<br>
-
-Currently the app is built on Heroku after every push to master branch.
-
 ## Troubleshooting
-
-### `yarn dev` mongodb not running
-
-`MongooseServerSelectionError: connect ECONNREFUSED 127.0.0.1:27017` <br>
-
-If you are getting an error message like this in your terminal, it means that you need to run mongodb with Replica Sets. <br>
-
-Run mongodb Replica Sets using the command `yarn rs`, then restart your application running `yarn dev` ant it may work.
+  - Coming soon. <br>
 
 ## Something Missing?
 
